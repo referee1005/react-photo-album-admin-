@@ -86,16 +86,7 @@ const Dashboard = () => {
                       )}
                       
                     /> */}
-                    <CImage
-                      rounded
-                      thumbnail
-                      src={item.s3_url.replace(
-                        'https://photogallerystorage.s3.us-west-1.amazonaws.com',
-                        'https://d24sl72mck15fx.cloudfront.net',
-                      )}
-                      width={40}
-                      height={30}
-                    />
+                    <CImage rounded thumbnail src={item.s3_webp_url} width={40} height={30} />
                   </CTableDataCell>
                   <CTableDataCell>
                     <div>{item.name}</div>

@@ -21,7 +21,7 @@ import { label } from 'src/config/label'
 const Dashboard = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState(null)
-  const [imageUrl, setImageUrl] = useState(null)
+  const [images, setImages] = useState(null)
   const [data, setData] = useState({})
   const { id } = useParams()
   const navigate = useNavigate()
@@ -41,7 +41,7 @@ const Dashboard = () => {
   }
   useEffect(() => {
     updateData()
-  }, [imageUrl])
+  }, [images])
   const onFileUpload = () => {
     const formData = new FormData()
     formData.append('file', file)
@@ -49,16 +49,23 @@ const Dashboard = () => {
     axios
       .post('http://localhost:5000/admin/photos/upload', formData)
       .then((response) => {
-        setImageUrl(response.data.location) // Set the image URL
-        updateData(response.data.location)
+        // setImageUrl(response.data.location) // Set the image URL
+        setImages(response.data.result)
+        // updateData(response.data.location)
       })
       .catch((error) => {
         console.error('Error uploading file', error)
       })
   }
   const updateData = () => {
-    let { s3_url, ...updateData } = data
-    if (imageUrl) updateData = { ...data, s3_url: imageUrl }
+    let { s3_url, s3_webp_url, s3_thumb_url, ...updateData } = data
+    if (images)
+      updateData = {
+        ...data,
+        s3_url: images[0].Location,
+        s3_webp_url: images[1].Location,
+        s3_thumb_url: images[2].Location,
+      }
     axios
       .put('http://localhost:5000/admin/photos/photo/' + data._id, updateData)
       .then((response) => {
@@ -139,7 +146,7 @@ const Dashboard = () => {
                 onChange={onFileChange}
                 // value={data.s3_url ? data.s3_url : ''}
               />
-              <CImage rounded thumbnail src={data.s3_url} width={200} height={200} />
+              <CImage rounded thumbnail src={data.s3_webp_url} width={200} height={200} />
             </CForm>
           </CRow>
         </CCardBody>

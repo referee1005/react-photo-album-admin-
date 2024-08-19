@@ -20,7 +20,7 @@ import { label } from 'src/config/label'
 const Dashboard = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState(null)
-  const [imageUrl, setImageUrl] = useState('')
+  // const [imageUrl, setImageUrl] = useState('')
   const [data, setData] = useState(null)
   const navigate = useNavigate()
 
@@ -35,8 +35,8 @@ const Dashboard = () => {
     axios
       .post('http://localhost:5000/admin/photos/upload', formData)
       .then((response) => {
-        setImageUrl(response.data.location) // Set the image URL
-        postData(response.data.location)
+        // setImageUrl(response.data.location) // Set the image URL
+        postData(response.data.result)
       })
       .catch((error) => {
         console.error('Error uploading file', error)
@@ -46,9 +46,10 @@ const Dashboard = () => {
     axios
       .post('http://localhost:5000/admin/photos/photo', {
         ...data,
-        s3_url: url,
+        urls: url,
       })
       .then((response) => {
+        navigate('/photo/photos')
         // setImageUrl(response.data.imageUrl) // Set the image URL
       })
       .catch((error) => {
