@@ -28,6 +28,7 @@ import { useNavigate } from 'react-router-dom'
 import { cilPeople, cilUserPlus } from '@coreui/icons'
 import axios from 'axios'
 import { label } from 'src/config/label'
+import { ApiUrl } from 'src/config'
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -38,7 +39,7 @@ const Dashboard = () => {
   const [visiableModal, setVisibleModal] = useState(false)
   useEffect(() => {
     axios
-      .get('http://localhost:5000/admin/photos/photo_categories')
+      .get(ApiUrl + '/admin/photos/photo_categories')
       .then((response) => {
         setPhotoCategories(response.data.categories) // Set the image URL
         // postData(response.data.location)
@@ -51,7 +52,7 @@ const Dashboard = () => {
   const save = () => {
     if (!id) {
       axios
-        .post('http://localhost:5000/admin/photos/photo_categories', {
+        .post(ApiUrl + '/admin/photos/photo_categories', {
           name: value,
         })
         .then((response) => {
@@ -62,7 +63,7 @@ const Dashboard = () => {
         })
     } else {
       axios
-        .put('http://localhost:5000/admin/photos/photo_categories/' + id, value)
+        .put(ApiUrl + '/admin/photos/photo_categories/' + id, value)
         .then((response) => {
           setVisibleModal(false)
         })

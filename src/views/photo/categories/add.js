@@ -17,6 +17,7 @@ import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { cilSave, cilBackspace } from '@coreui/icons'
 import { label } from 'src/config/label'
+import { ApiUrl } from '../../../config'
 const Dashboard = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState(null)
@@ -33,7 +34,7 @@ const Dashboard = () => {
     formData.append('file', file)
 
     axios
-      .post('http://localhost:5000/admin/photos/upload', formData)
+      .post(ApiUrl + '/admin/photos/upload', formData)
       .then((response) => {
         // setImageUrl(response.data.location) // Set the image URL
         postData(response.data.result)
@@ -44,7 +45,7 @@ const Dashboard = () => {
   }
   const postData = (url) => {
     axios
-      .post('http://localhost:5000/admin/photos/photo', {
+      .post(ApiUrl + '/admin/photos/photo', {
         ...data,
         urls: url,
       })

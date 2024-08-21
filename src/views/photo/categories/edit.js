@@ -18,6 +18,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilSave, cilBackspace } from '@coreui/icons'
 import { label } from 'src/config/label'
+import { ApiUrl } from '../../../config'
 const Dashboard = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState(null)
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/admin/photos/photo/' + id)
+      .get(ApiUrl + '/admin/photos/photo/' + id)
       .then((response) => {
         setData(response.data)
       })
@@ -47,7 +48,7 @@ const Dashboard = () => {
     formData.append('file', file)
 
     axios
-      .post('http://localhost:5000/admin/photos/upload', formData)
+      .post(ApiUrl + '/admin/photos/upload', formData)
       .then((response) => {
         // setImageUrl(response.data.location) // Set the image URL
         setImages(response.data.result)
@@ -67,7 +68,7 @@ const Dashboard = () => {
         s3_thumb_url: images[2].Location,
       }
     axios
-      .put('http://localhost:5000/admin/photos/photo/' + data._id, updateData)
+      .put(ApiUrl + '/admin/photos/photo/' + data._id, updateData)
       .then((response) => {
         navigate('/photo/photos')
         // setImageUrl(response.data.imageUrl) // Set the image URL

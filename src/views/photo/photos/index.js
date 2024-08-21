@@ -23,6 +23,8 @@ import { useNavigate } from 'react-router-dom'
 import { cilPeople, cilUserPlus } from '@coreui/icons'
 import axios from 'axios'
 import { label } from 'src/config/label'
+import { ApiUrl } from 'src/config'
+
 const Dashboard = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -33,7 +35,7 @@ const Dashboard = () => {
   }, [])
   const getPhotos = () => {
     axios
-      .get('http://localhost:5000/admin/photos/photo')
+      .get(ApiUrl + '/admin/photos/photo')
       .then((response) => {
         setPhotos(response.data.photos) // Set the image URL
         // postData(response.data.location)
@@ -44,7 +46,7 @@ const Dashboard = () => {
   }
   const deletePhoto = (id) => {
     axios
-      .delete('http://localhost:5000/admin/photos/photo/' + id)
+      .delete(ApiUrl + '/admin/photos/photo/' + id)
       .then((response) => {
         getPhotos()
       })

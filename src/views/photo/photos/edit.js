@@ -19,6 +19,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilSave, cilBackspace } from '@coreui/icons'
 import { label } from 'src/config/label'
+import { ApiUrl } from '../../../config'
 const Dashboard = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState(null)
@@ -30,7 +31,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/admin/photos/photo_categories')
+      .get(ApiUrl + '/admin/photos/photo_categories')
       .then((response) => {
         setPhotoCategories(response.data.categories) // Set the image URL
       })
@@ -38,7 +39,7 @@ const Dashboard = () => {
         console.error('Error uploading file', error)
       })
     axios
-      .get('http://localhost:5000/admin/photos/photo/' + id)
+      .get(ApiUrl + '/admin/photos/photo/' + id)
       .then((response) => {
         setData({ ...response.data, category_id: response.data.category })
       })
@@ -58,7 +59,7 @@ const Dashboard = () => {
     formData.append('file', file)
     formData.append('category', data.category_id)
     axios
-      .post('http://localhost:5000/admin/photos/upload', formData)
+      .post(ApiUrl + '/admin/photos/upload', formData)
       .then((response) => {
         // setImageUrl(response.data.location) // Set the image URL
         setImages(response.data.result)
@@ -78,7 +79,7 @@ const Dashboard = () => {
         s3_thumb_url: images[2].Location,
       }
     axios
-      .put('http://localhost:5000/admin/photos/photo/' + data._id, updateData)
+      .put(ApiUrl + '/admin/photos/photo/' + data._id, updateData)
       .then((response) => {
         navigate('/photo/photos')
         // setImageUrl(response.data.imageUrl) // Set the image URL
