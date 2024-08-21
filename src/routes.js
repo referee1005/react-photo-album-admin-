@@ -2,9 +2,12 @@ import React from 'react'
 import { Translation } from 'react-i18next'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Photos = React.lazy(() => import('./views/photo'))
-const PhotoAdd = React.lazy(() => import('./views/photo/add'))
-const PhotoEdit = React.lazy(() => import('./views/photo/edit'))
+const Photos = React.lazy(() => import('./views/photo/photos'))
+const PhotoAdd = React.lazy(() => import('./views/photo/photos/add'))
+const PhotoEdit = React.lazy(() => import('./views/photo/photos/edit'))
+const PhotoCategory = React.lazy(() => import('./views/photo/categories'))
+const PhotoCategoryAdd = React.lazy(() => import('./views/photo/categories/add'))
+const PhotoCategoryEdit = React.lazy(() => import('./views/photo/categories/edit'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -87,6 +90,21 @@ const routes = [
     path: '/photo/photos/edit/:id',
     name: <Translation>{(t) => t('Edit Photo')}</Translation>,
     element: PhotoEdit,
+  },
+  {
+    path: '/photo/categories',
+    name: <Translation>{(t) => t('Categories')}</Translation>,
+    element: PhotoCategory,
+  },
+  {
+    path: '/photo/categories/add',
+    name: <Translation>{(t) => t('Add Category')}</Translation>,
+    element: PhotoCategoryAdd,
+  },
+  {
+    path: '/photo/categories/edit/:id',
+    name: <Translation>{(t) => t('Edit Category')}</Translation>,
+    element: PhotoCategoryEdit,
   },
   {
     path: '/theme',

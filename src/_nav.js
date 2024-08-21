@@ -34,15 +34,22 @@ const _nav = [
     },
   },
   {
-    component: CNavItem,
+    component: CNavGroup,
     name: <Translation>{(t) => t('Photos')}</Translation>,
     to: '/photo',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
+        name: 'Categories',
+        to: '/photo/categories',
+        icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
         name: 'Photos',
         to: '/photo/photos',
+        icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
       },
     ],
   },

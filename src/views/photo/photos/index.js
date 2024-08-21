@@ -22,13 +22,16 @@ import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 import { cilPeople, cilUserPlus } from '@coreui/icons'
 import axios from 'axios'
-
+import { label } from 'src/config/label'
 const Dashboard = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [photos, setPhotos] = useState([])
 
   useEffect(() => {
+    getPhotos()
+  }, [])
+  const getPhotos = () => {
     axios
       .get('http://localhost:5000/admin/photos/photo')
       .then((response) => {
@@ -38,8 +41,17 @@ const Dashboard = () => {
       .catch((error) => {
         console.error('Error uploading file', error)
       })
-  }, [])
-
+  }
+  const deletePhoto = (id) => {
+    axios
+      .delete('http://localhost:5000/admin/photos/photo/' + id)
+      .then((response) => {
+        getPhotos()
+      })
+      .catch((error) => {
+        console.error('Error uploading file', error)
+      })
+  }
   return (
     <>
       <CCard className="mb-4">
@@ -56,13 +68,13 @@ const Dashboard = () => {
             <CCol xs="auto" className="ms-auto">
               <CButton color="secondary" onClick={() => navigate('./add')}>
                 <CIcon icon={cilUserPlus} className="me-2" />
-                {t('addNewUser')}
+                {t(label.addNew)}
               </CButton>
             </CCol>
           </CRow>
           <CTable align="middle" className="mb-0" hover responsive>
             <CTableHead className="fw-semibold text-body-secondary">
-              <CTableRow>
+              <CTableRow className="text-center">
                 <CTableHeaderCell className="text-center">
                   <CIcon icon={cilPeople} />
                 </CTableHeaderCell>
@@ -73,7 +85,7 @@ const Dashboard = () => {
                 <CTableHeaderCell>{t('operation')}</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
-            <CTableBody>
+            <CTableBody className="text-center">
               {photos.map((item, index) => (
                 <CTableRow v-for="item in tableItems" key={index}>
                   <CTableDataCell className="text-center">
@@ -86,13 +98,13 @@ const Dashboard = () => {
                       )}
                       
                     /> */}
-                    <CImage rounded thumbnail src={item.s3_webp_url} width={40} height={30} />
+                    <CImage rounded thumbnail src={item.s3_thumb_url} width={40} height={30} />
                   </CTableDataCell>
                   <CTableDataCell>
                     <div>{item.name}</div>
                   </CTableDataCell>
                   <CTableDataCell>
-                    <div>{item.category}</div>
+                    <div>{item.category ? item.category.name : ''}</div>
                   </CTableDataCell>
                   <CTableDataCell>
                     <div>{item.location}</div>
@@ -110,7 +122,11 @@ const Dashboard = () => {
                     >
                       Edit
                     </button>
-                    <button type="button" className="btn btn-outline-danger">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => deletePhoto(item._id)}
+                    >
                       Delete
                     </button>
                   </CTableDataCell>
