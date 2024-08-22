@@ -106,7 +106,9 @@ const Dashboard = () => {
                     <div>{item.name}</div>
                   </CTableDataCell>
                   <CTableDataCell>
-                    <div>{item.category ? item.category.name : ''}</div>
+                    <div>
+                      {item.category && item.category !== undefined ? item.category.name : ''}
+                    </div>
                   </CTableDataCell>
                   <CTableDataCell>
                     <div>{item.location}</div>
